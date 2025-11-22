@@ -1,21 +1,79 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhiteNet</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BHB / SUA Gateway — Wire Earth</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <h1>WhiteNet</h1>
-        <p>DarkChat-Underground Internet</p>
-        <p>Los Serrics</p>
-        <p>Discover the dark secrets of the web.</p>
-        <button id="enter-code">ENTER CODE</button>
-        <button id="bhb">BHB</button>
+  <main class="page">
+    <div class="shell">
+      <div class="shell-header">
+        <div class="shell-logo">BHB / SUA</div>
+        <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Переключить тему">
+          Тёмная
+        </button>
+      </div>
+      <div class="layout">
+        <div class="planet-wrap" aria-hidden="true">
+          <div class="planet-orbit">
+            <div class="planet-orbit-ring planet-orbit-ring--inner"></div>
+            <div class="planet-orbit-ring planet-orbit-ring--outer"></div>
+            <div class="planet-glow"></div>
+            <div class="planet planet--wire">
+              <div class="planet-wireframe">
+                <img src="img/wire1.png" alt="" class="planet-wireframe-layer planet-wireframe-layer--1" />
+                <img src="img/wire2.png" alt="" class="planet-wireframe-layer planet-wireframe-layer--2" />
+                <img src="img/wire3.png" alt="" class="planet-wireframe-layer planet-wireframe-layer--3" />
+              </div>
+              <div class="planet-scan"></div>
+              <div class="planet-satellites">
+                <div class="planet-satellite planet-satellite--1"></div>
+                <div class="planet-satellite planet-satellite--2"></div>
+              </div>
+              <div class="planet-wire-mask"></div>
+            </div>
+          </div>
+        </div>
+
+        <section class="panel" aria-label="Форма ввода кодов доступа BHB и SUA">
+          <header class="panel-header">
+            <h1>BHB / SUA Gateway</h1>
+            <p>Введите коды доступа к закрытой документации.</p>
+          </header>
+
+          <div class="field-group">
+            <div>
+              <label for="code-bhb">Код BHB</label>
+              <input id="code-bhb" type="text" placeholder="Например: BHB_Wattes_187" autocomplete="off" />
+            </div>
+            <div>
+              <label for="code-sua">Код SUA</label>
+              <input id="code-sua" type="text" placeholder="Опционально" autocomplete="off" />
+            </div>
+            <div class="error-text" id="code-error"></div>
+          </div>
+
+          <div class="btn-row">
+            <button class="primary" id="continue-btn" type="button">
+              Продолжить
+            </button>
+          </div>
+
+          <p class="hint">
+            Сейчас проверяется только код BHB. При корректном значении вы будете перенаправлены
+            на страницу документации. Остальная логика может быть добавлена позже.
+          </p>
+          <p class="sysline">
+            <span id="status-text">STATUS: idle</span>
+            • NODE: BHB-GATEWAY • BUILD: 0.1.3 • ENCRYPTION: AES-256
+          </p>
+        </section>
+      </div>
     </div>
-    <script src="scripts.js"></script>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
