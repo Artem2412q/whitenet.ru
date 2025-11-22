@@ -1,4 +1,5 @@
-// Проверка кода BHB + редирект + статус
+
+// Логика проверки кодов BHB / SUA / drive3
 (function initGatewayLogic() {
   const bhbInput = document.getElementById("code-bhb");
   const suaInput = document.getElementById("code-sua");
@@ -80,6 +81,68 @@
   });
 })();
 
+// Фоновая «дождь из цифр» анимация на canvas
+(function initCodeRain() {
+  const canvas = document.getElementById("code-rain");
+  if (!canvas || !canvas.getContext) return;
+
+  const ctx = canvas.getContext("2d");
+  const chars = "0123456789";
+  const fontSize = 16;
+  let width = 0;
+  let height = 0;
+  let columns = 0;
+  let drops = [];
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    width = rect.width;
+    height = rect.height;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    columns = Math.floor(width / fontSize);
+    drops = new Array(columns).fill(0);
+  }
+
+  function draw() {
+    if (!width || !height) {
+      requestAnimationFrame(draw);
+      return;
+    }
+
+    // слегка затемняем предыдущий кадр для эффекта шлейфа
+    ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = "rgba(84, 247, 194, 0.85)";
+    ctx.font = fontSize + "px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace";
+
+    for (let i = 0; i < columns; i++) {
+      const char = chars.charAt(Math.floor(Math.random() * chars.length));
+      const x = i * fontSize;
+      const y = drops[i] * fontSize;
+
+      ctx.fillText(char, x, y);
+
+      if (y > height && Math.random() > 0.975) {
+        drops[i] = 0;
+      } else {
+        drops[i]++;
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener("resize", resize);
+  requestAnimationFrame(draw);
+})();
+
 // Переключение светлой / тёмной темы
 (function initThemeToggle() {
   const toggle = document.getElementById("theme-toggle");
@@ -101,7 +164,9 @@
   }
 
   try {
-    const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+    const prefersLight =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: light)").matches;
     if (prefersLight) {
       applyTheme("light");
     } else {
