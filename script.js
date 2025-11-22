@@ -1,12 +1,21 @@
 
+// Инициализация после полной загрузки страницы
+window.addEventListener("load", function () {
+  initGatewayLogic();
+  initCodeRain();
+  initThemeToggle();
+});
+
 // Логика проверки кодов BHB / SUA / drive3
-(function initGatewayLogic() {
+function initGatewayLogic() {
   const bhbInput = document.getElementById("code-bhb");
   const suaInput = document.getElementById("code-sua");
   const driveInput = document.getElementById("code-drive");
   const continueBtn = document.getElementById("continue-btn");
   const errorBox = document.getElementById("code-error");
   const statusText = document.getElementById("status-text");
+
+  if (!continueBtn) return;
 
   const VALID_BHB_CODE = "BHB_Wattes_187";
   const BHB_URL = "https://artem2412q.github.io/bhb/";
@@ -30,8 +39,6 @@
     if (driveInput) driveInput.classList.remove("input-error");
     setStatus("STATUS: idle");
   }
-
-  if (!continueBtn) return;
 
   function attachClearOnInput(input) {
     if (!input) return;
@@ -69,7 +76,8 @@
     }
 
     if (errorBox) {
-      errorBox.textContent = "Неверный код доступа. Проверьте значения и попробуйте ещё раз.";
+      errorBox.textContent =
+        "Неверный код доступа. Проверьте значения и попробуйте ещё раз.";
       errorBox.classList.add("visible");
     }
 
@@ -79,10 +87,10 @@
 
     setStatus("STATUS: access denied");
   });
-})();
+}
 
 // Фоновая «дождь из цифр» анимация на canvas
-(function initCodeRain() {
+function initCodeRain() {
   const canvas = document.getElementById("code-rain");
   if (!canvas || !canvas.getContext) return;
 
@@ -96,6 +104,7 @@
 
   function resize() {
     const dpr = window.devicePixelRatio || 1;
+    // canvas на весь экран
     const rect = canvas.getBoundingClientRect();
     width = rect.width;
     height = rect.height;
@@ -114,12 +123,14 @@
       return;
     }
 
-    // слегка затемняем предыдущий кадр для эффекта шлейфа
-    ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
+    // лёгкий шлейф
+    ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
     ctx.fillRect(0, 0, width, height);
 
-    ctx.fillStyle = "rgba(84, 247, 194, 0.85)";
-    ctx.font = fontSize + "px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace";
+    ctx.fillStyle = "rgba(84, 247, 194, 0.8)";
+    ctx.font =
+      fontSize +
+      'px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
 
     for (let i = 0; i < columns; i++) {
       const char = chars.charAt(Math.floor(Math.random() * chars.length));
@@ -141,10 +152,10 @@
   resize();
   window.addEventListener("resize", resize);
   requestAnimationFrame(draw);
-})();
+}
 
 // Переключение светлой / тёмной темы
-(function initThemeToggle() {
+function initThemeToggle() {
   const toggle = document.getElementById("theme-toggle");
   const body = document.body;
 
@@ -179,4 +190,4 @@
   toggle.addEventListener("click", () => {
     applyTheme(currentTheme === "dark" ? "light" : "dark");
   });
-})();
+}

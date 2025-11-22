@@ -45,6 +45,7 @@ body {
   z-index: 1;
   width: 100%;
   max-width: 1280px;
+  margin: 0 auto;
   border-radius: 28px;
   padding: 24px 40px 32px;
   background:
@@ -129,13 +130,14 @@ body {
 /* matrix background canvas */
 
 #code-rain {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   opacity: 0.4; /* примерно 40% */
   pointer-events: none;
   z-index: 0;
+  filter: blur(1.2px);
 }
 
 /* layout grid */
